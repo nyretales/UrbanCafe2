@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Urban Café – QR Menu</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#8b1d2c" />
+  <style>
+    :root{
+      --brand:#8b1d2c;
+      --bg:#111;
+      --card:#1e1e1e;
+      --text:#f5f5f5;
+      --muted:#aaa;
+      --food:#ffb703;
+      --drink:#4dabf7;
+      --dessert:#ff7ac8;
+      --vegan:#4caf50;
+      --alcohol:#b388ff;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,Arial,sans-serif;background:var(--bg);color:var(--text)}
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: #0c0c0c;
+      padding: 20px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center; 
+      border-bottom: 1px solid #222;
+    }
+    .brand {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px; /* Jarak antar elemen diperkecil sedikit agar alamat tidak terlalu jauh */
+    }
+    
+    .brand img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(0,0,0,.6);
+      margin-bottom: 4px;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    /* --- GAYA UNTUK ALAMAT --- */
+    .brand .address {
+      margin: 0;
+      font-size: 13px;       /* Ukuran font lebih kecil */
+      color: var(--muted);   /* Warna abu-abu agar tidak bertabrakan dengan Judul */
+      text-align: center;
+      max-width: 280px;      /* Membatasi lebar agar teks turun ke bawah jika terlalu panjang */
+      line-height: 1.4;
+    }
+    /* ------------------------- */
+
+    .container{max-width:1100px;margin:auto;padding:12px;padding-bottom: 80px;}
+
+    .ribbon{margin-top:28px;padding:12px;border-radius:10px;text-align:center;font-weight:700;letter-spacing:2px}
+    .food{background:rgba(255,183,3,.15);color:var(--food)}
+    .drink{background:rgba(77,171,247,.15);color:var(--drink)}
+    .dessert{background:rgba(255,122,200,.15);color:var(--dessert)}
+    .vegan{background:rgba(76,175,80,.15);color:var(--vegan)}
+    .alcohol{background:rgba(179,136,255,.15);color:var(--alcohol)}
+
+    .menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
+    .menu-card{background:var(--card);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+
+    .img-wrap{aspect-ratio:1/1;overflow:hidden}
+    .img-wrap img{width:100%;height:100%;object-fit:cover}
+
+    .menu-content{padding:12px;display:flex;flex-direction:column;gap:6px;flex:1}
+    .menu-content p{margin:0;font-size:14px;color:var(--muted)}
+
+    .menu-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+    .qty{display:flex;align-items:center;gap:8px}
+    .qty button{width:28px;height:28px;border:none;border-radius:50%;background:var(--brand);color:#fff;font-size:18px;cursor:pointer}
+
+    .order-bar{position:sticky;bottom:0;background:#000;padding:14px;border-top:1px solid #333}
+    .order-btn{width:100%;padding:14px;border:none;border-radius:30px;background:var(--brand);color:#fff;font-size:16px;font-weight:700;cursor:pointer}
+
+    footer{text-align:center;padding:16px;color:var(--muted);font-size:13px}
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <img src="img/logo.png" />
+    <h1>URBAN CAFE</h1>
+    <p class="address">Jl. Jendral Sudirman No. 45, Sinjai</p>
+  </div>
+</header>
+
+<div class="container">
+  <div class="ribbon food">🍔 MAKANAN</div>
+  <div class="menu-grid" id="grid-food"></div>
+
+  <div class="ribbon drink">🥤 MINUMAN</div>
+  <div class="menu-grid" id="grid-drink"></div>
+
+  <div class="ribbon dessert">🍰 DESSERT</div>
+  <div class="menu-grid" id="grid-dessert"></div>
+
+  <div class="ribbon vegan">🌱 VEGAN</div>
+  <div class="menu-grid" id="grid-vegan"></div>
+
+  <div class="ribbon alcohol">🍷 ALCOHOL</div>
+  <div class="menu-grid" id="grid-alcohol"></div>
+</div>
+
+<div class="order-bar">
+  <div id="total" style="color:white; margin-bottom:10px; font-weight:bold;">Total: Rp 0</div>
+  <button class="order-btn" onclick="orderWA()">Order via WhatsApp</button>
+</div>
+
+<footer>Design by HDR • Urban Café</footer>
+
+<script>
+function menuItem(name,price){
+  let rand = Math.floor(Math.random() * 1000);
+  return `
+  <div class="menu-card">
+    <div class="img-wrap"><img loading="lazy" src="https://picsum.photos/400?random=${rand}"></div>
+    <div class="menu-content">
+      <strong>${name}</strong>
+      <p>Rp ${price.toLocaleString('id-ID')}</p>
+      <div class="menu-bottom">
+        <div class="qty">
+          <button onclick="minus('${name}')">−</button>
+          <span id="q-${name}">0</span>
+          <button onclick="add('${name}',${price})">+</button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+document.getElementById('grid-food').innerHTML = 
+  menuItem('Burger Beef',35000) +
+  menuItem('Chicken Wrap',30000) +
+  menuItem('Steak Rice Bowl',45000) +
+  menuItem('Fish & Chips',40000) +
+  menuItem('Pasta Carbonara',38000);
+
+document.getElementById('grid-drink').innerHTML = 
+  menuItem('Iced Coffee',22000) +
+  menuItem('Latte',25000) +
+  menuItem('Matcha Latte',28000) +
+  menuItem('Fresh Lemonade',20000) +
+  menuItem('Mineral Water',10000);
+
+document.getElementById('grid-dessert').innerHTML = 
+  menuItem('Cheesecake',30000) +
+  menuItem('Brownies',28000);
+
+document.getElementById('grid-vegan').innerHTML = 
+  menuItem('Vegan Bowl',32000) +
+  menuItem('Tofu Teriyaki',30000);
+
+document.getElementById('grid-alcohol').innerHTML = 
+  menuItem('Red Wine',80000) +
+  menuItem('Beer',45000);
+
+let cart = {}; let total = 0;
+
+function add(name, price){
+  if(!cart[name]) cart[name]={qty:0,price};
+  cart[name].qty++; 
+  total+=price; 
+  update(name);
+}
+
+function minus(name){
+  if(cart[name] && cart[name].qty>0){
+    cart[name].qty--; 
+    total-=cart[name].price; 
+    if(cart[name].qty===0) delete cart[name]; 
+    update(name);
+  }
+}
+
+function update(name){
+  const q=document.getElementById('q-'+name); 
+  if(q) q.textContent=cart[name]?.qty||0;
+  document.getElementById('total').textContent=`Total: Rp ${total.toLocaleString('id-ID')}`;
+}
+
+function orderWA(){
+  if(total === 0) {
+    alert("Keranjang masih kosong!");
+    return;
+  }
+  let msg='Halo, saya ingin order:%0A';
+  for(const i in cart){
+    msg+=`- ${i} (${cart[i].qty}x)%0A`
+  }
+  msg+=`%0ATotal: Rp ${total.toLocaleString('id-ID')}`;
+  window.open('https://wa.me/6282319527214?text='+msg);
+}
+</script>
+</body>
+</html>
