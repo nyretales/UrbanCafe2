@@ -144,7 +144,6 @@ function renderMenu(){
     <article class="menu-card overflow-hidden rounded-2xl border border-[#D8C8B9] bg-[#359FA0]">
       <div class="relative aspect-[16/10] overflow-hidden bg-[#E5D8CC] sm:aspect-[16/9]">
         <img src="${item.image}" alt="${item.name}" loading="lazy" class="h-full w-full object-cover" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=700&q=80'">
-        <button onclick="addToCart(${item.id})" aria-label="Tambah ${item.name}" class="absolute bottom-3 right-3 grid h-10 w-10 place-items-center rounded-full bg-[#F3EAE1] text-stone-900 shadow-md transition hover:bg-[#20201e] hover:text-white"><i data-lucide="plus" class="h-5 w-5"></i></button>
       </div>
       <div class="flex items-center justify-between gap-3 p-4 sm:p-5">
         <h3 class="min-h-0 text-sm font-extrabold leading-snug sm:text-base">${item.name}</h3>
