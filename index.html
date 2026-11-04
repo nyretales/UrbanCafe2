@@ -1,214 +1,195 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Urban Café – QR Menu</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#8b1d2c" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f8f7f4">
+  <title>Urban Cafe — Coffee & Comfort Food</title>
+  <meta name="description" content="Temukan kopi, minuman segar, makanan, dan pastry favoritmu di Urban Cafe. Pesan praktis melalui WhatsApp.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --brand:#8b1d2c;
-      --bg:#111;
-      --card:#1e1e1e;
-      --text:#f5f5f5;
-      --muted:#aaa;
-      --food:#ffb703;
-      --drink:#4dabf7;
-      --dessert:#ff7ac8;
-      --vegan:#4caf50;
-      --alcohol:#b388ff;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,Arial,sans-serif;background:var(--bg);color:var(--text)}
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: #0c0c0c;
-      padding: 20px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center; 
-      border-bottom: 1px solid #222;
-    }
-    .brand {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px; /* Jarak antar elemen diperkecil sedikit agar alamat tidak terlalu jauh */
-    }
-    
-    .brand img {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      box-shadow: 0 4px 12px rgba(0,0,0,.6);
-      margin-bottom: 4px;
-    }
-
-    .brand h1 {
-      margin: 0;
-      font-size: 22px;
-      font-weight: 700;
-      line-height: 1.2;
-    }
-
-    /* --- GAYA UNTUK ALAMAT --- */
-    .brand .address {
-      margin: 0;
-      font-size: 13px;       /* Ukuran font lebih kecil */
-      color: var(--muted);   /* Warna abu-abu agar tidak bertabrakan dengan Judul */
-      text-align: center;
-      max-width: 280px;      /* Membatasi lebar agar teks turun ke bawah jika terlalu panjang */
-      line-height: 1.4;
-    }
-    /* ------------------------- */
-
-    .container{max-width:1100px;margin:auto;padding:12px;padding-bottom: 80px;}
-
-    .ribbon{margin-top:28px;padding:12px;border-radius:10px;text-align:center;font-weight:700;letter-spacing:2px}
-    .food{background:rgba(255,183,3,.15);color:var(--food)}
-    .drink{background:rgba(77,171,247,.15);color:var(--drink)}
-    .dessert{background:rgba(255,122,200,.15);color:var(--dessert)}
-    .vegan{background:rgba(76,175,80,.15);color:var(--vegan)}
-    .alcohol{background:rgba(179,136,255,.15);color:var(--alcohol)}
-
-    .menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px}
-    .menu-card{background:var(--card);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
-
-    .img-wrap{aspect-ratio:1/1;overflow:hidden}
-    .img-wrap img{width:100%;height:100%;object-fit:cover}
-
-    .menu-content{padding:12px;display:flex;flex-direction:column;gap:6px;flex:1}
-    .menu-content p{margin:0;font-size:14px;color:var(--muted)}
-
-    .menu-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
-    .qty{display:flex;align-items:center;gap:8px}
-    .qty button{width:28px;height:28px;border:none;border-radius:50%;background:var(--brand);color:#fff;font-size:18px;cursor:pointer}
-
-    .order-bar{position:sticky;bottom:0;background:#000;padding:14px;border-top:1px solid #333}
-    .order-btn{width:100%;padding:14px;border:none;border-radius:30px;background:var(--brand);color:#fff;font-size:16px;font-weight:700;cursor:pointer}
-
-    footer{text-align:center;padding:16px;color:var(--muted);font-size:13px}
+    :root { --ink:#20201e; --muted:#77766f; --paper:#f8f7f4; --accent:#b76e3d; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'DM Sans',sans-serif; background:var(--paper); color:var(--ink); }
+    .no-scrollbar::-webkit-scrollbar { display:none; }
+    .no-scrollbar { scrollbar-width:none; }
+    .menu-card { transition:transform .2s ease, box-shadow .2s ease; }
+    .menu-card:hover { transform:translateY(-3px); box-shadow:0 14px 35px rgba(30,25,20,.09); }
+    .menu-card img { transition:transform .45s ease; }
+    .menu-card:hover img { transform:scale(1.045); }
+    .category-btn { transition:all .18s ease; }
+    .category-btn.active { background:var(--ink); color:#fff; border-color:var(--ink); }
+    .drawer-open { transform:translateX(0)!important; }
+    .backdrop-show { opacity:1!important; pointer-events:auto!important; }
+    .safe-bottom { padding-bottom:max(14px, env(safe-area-inset-bottom)); }
+    button:focus-visible, a:focus-visible { outline:3px solid #d6a17d; outline-offset:3px; }
   </style>
 </head>
-<body>
-<header>
-  <div class="brand">
-    <img src="img/logo.png" />
-    <h1>URBAN CAFE</h1>
-    <p class="address">Jl. Jendral Sudirman No. 45, Sinjai</p>
-  </div>
-</header>
+<body class="pb-24 md:pb-0">
+  <header class="sticky top-0 z-40 border-b border-stone-200/80 bg-[#f8f7f4]/95 backdrop-blur">
+    <div class="relative mx-auto flex h-[68px] max-w-7xl items-center justify-center px-4 sm:px-6 lg:px-8">
+      <a href="#" class="flex items-center justify-center gap-2.5" aria-label="Urban Cafe beranda">
+        <span class="grid h-10 w-10 place-items-center rounded-full bg-[#20201e] text-white"><i data-lucide="coffee" class="h-5 w-5"></i></span>
+        <span class="text-[15px] font-extrabold tracking-[.13em]">URBAN CAFE</span>
+      </a>
+      <button onclick="toggleCart(true)" class="absolute right-4 top-1/2 flex -translate-y-1/2 items-center gap-2 rounded-full border border-stone-300 bg-white px-4 py-2.5 text-sm font-bold hover:bg-stone-100 sm:right-6 lg:right-8" aria-label="Buka keranjang">
+        <i data-lucide="shopping-bag" class="h-4 w-4"></i><span class="hidden sm:inline">Pesanan</span>
+        <span id="cart-badge" class="hidden min-w-5 rounded-full bg-[#b76e3d] px-1.5 py-0.5 text-center text-[10px] text-white">0</span>
+      </button>
+    </div>
+  </header>
 
-<div class="container">
-  <div class="ribbon food">🍔 MAKANAN</div>
-  <div class="menu-grid" id="grid-food"></div>
-
-  <div class="ribbon drink">🥤 MINUMAN</div>
-  <div class="menu-grid" id="grid-drink"></div>
-
-  <div class="ribbon dessert">🍰 DESSERT</div>
-  <div class="menu-grid" id="grid-dessert"></div>
-
-  <div class="ribbon vegan">🌱 VEGAN</div>
-  <div class="menu-grid" id="grid-vegan"></div>
-
-  <div class="ribbon alcohol">🍷 ALCOHOL</div>
-  <div class="menu-grid" id="grid-alcohol"></div>
-</div>
-
-<div class="order-bar">
-  <div id="total" style="color:white; margin-bottom:10px; font-weight:bold;">Total: Rp 0</div>
-  <button class="order-btn" onclick="orderWA()">Order via WhatsApp</button>
-</div>
-
-<footer>Design by HDR • Urban Café</footer>
-
-<script>
-function menuItem(name,price){
-  let rand = Math.floor(Math.random() * 1000);
-  return `
-  <div class="menu-card">
-    <div class="img-wrap"><img loading="lazy" src="https://picsum.photos/400?random=${rand}"></div>
-    <div class="menu-content">
-      <strong>${name}</strong>
-      <p>Rp ${price.toLocaleString('id-ID')}</p>
-      <div class="menu-bottom">
-        <div class="qty">
-          <button onclick="minus('${name}')">−</button>
-          <span id="q-${name}">0</span>
-          <button onclick="add('${name}',${price})">+</button>
+  <main>
+    <section class="mx-auto max-w-7xl px-4 pb-6 pt-6 sm:px-6 md:pb-9 md:pt-9 lg:px-8">
+      <div class="relative h-[175px] overflow-hidden rounded-[24px] bg-stone-900 sm:h-[230px] md:h-[300px]">
+        <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=1800&q=85" alt="Suasana Urban Cafe" class="h-full w-full object-cover">
+        <div class="absolute inset-0 flex items-center justify-center bg-black/10 px-4 text-center">
+          <h1 class="text-2xl font-extrabold uppercase leading-tight tracking-wide text-white drop-shadow-lg sm:text-3xl md:text-4xl">FEEL THE TASTE<br>ENJOY THE PLACE</h1>
         </div>
       </div>
+    </section>
+
+    <section id="menu" class="mx-auto max-w-7xl scroll-mt-24 px-4 pb-14 sm:px-6 lg:px-8">
+      <div id="categories" class="mb-6 grid grid-cols-2 gap-2"></div>
+      <div id="menu-grid" class="mx-auto grid max-w-3xl grid-cols-1 gap-5"></div>
+    </section>
+
+    <section id="info" class="border-t border-stone-200 bg-white">
+      <div class="mx-auto flex max-w-7xl flex-col items-center gap-5 px-4 py-8 text-center sm:px-6 lg:px-8">
+        <div class="w-full text-center"><p class="text-sm font-extrabold">URBAN CAFE.</p><p class="mt-1 text-xs text-stone-500">Good coffee. Good food. Good days.</p></div>
+        <a href="https://wa.me/6282319527214" target="_blank" rel="noopener" class="inline-flex w-full max-w-md items-center justify-center gap-2 rounded-full bg-[#20201e] px-5 py-3 text-sm font-bold text-white hover:bg-[#b76e3d]"><i data-lucide="message-circle" class="h-4 w-4"></i> Order Now · WhatsApp</a>
+      </div>
+    </section>
+  </main>
+
+  <div class="fixed inset-x-0 bottom-0 z-30 border-t border-stone-200 bg-white/95 p-3 backdrop-blur md:hidden safe-bottom">
+    <div class="mx-auto flex max-w-lg items-center gap-3">
+      <button onclick="toggleCart(true)" class="flex flex-1 items-center justify-between rounded-full bg-stone-100 px-5 py-3 text-sm font-bold"><span class="flex items-center gap-2"><i data-lucide="shopping-bag" class="h-4 w-4"></i> Keranjang</span><span id="mobile-total" class="text-[#b76e3d]">Rp 0</span></button>
+      <a href="https://wa.me/6282319527214" target="_blank" rel="noopener" class="rounded-full bg-[#20201e] px-5 py-3 text-sm font-bold text-white">Order Now</a>
     </div>
-  </div>`;
+  </div>
+
+  <div id="cart-drawer" class="pointer-events-none fixed inset-0 z-50 hidden">
+    <div id="cart-backdrop" onclick="toggleCart(false)" class="pointer-events-none absolute inset-0 bg-black/45 opacity-0 transition-opacity duration-300"></div>
+    <aside id="cart-content" class="absolute right-0 top-0 flex h-full w-full max-w-md translate-x-full flex-col bg-white shadow-2xl transition-transform duration-300">
+      <div class="flex items-center justify-between border-b border-stone-200 px-5 py-4">
+        <div><p class="text-[10px] font-bold uppercase tracking-[.2em] text-[#b76e3d]">Your selection</p><h3 class="text-lg font-extrabold">Keranjang Pesanan</h3></div>
+        <button onclick="toggleCart(false)" class="rounded-full bg-stone-100 p-2 hover:bg-stone-200" aria-label="Tutup keranjang"><i data-lucide="x" class="h-5 w-5"></i></button>
+      </div>
+      <div id="cart-items" class="flex-1 space-y-3 overflow-y-auto p-5"></div>
+      <div class="border-t border-stone-200 bg-[#faf9f7] p-5">
+        <div class="mb-4 flex items-center justify-between"><span class="text-sm font-semibold text-stone-500">Total</span><strong id="cart-total" class="text-xl">Rp 0</strong></div>
+        <button onclick="checkout()" class="flex w-full items-center justify-center gap-2 rounded-full bg-[#20201e] py-3.5 text-sm font-bold text-white transition hover:bg-[#b76e3d]">Order Now via WhatsApp <i data-lucide="arrow-up-right" class="h-4 w-4"></i></button>
+        <p class="mt-2 text-center text-[10px] text-stone-400">Pesanan akan dikirim ke WhatsApp untuk konfirmasi.</p>
+      </div>
+    </aside>
+  </div>
+
+<script>
+const WA_NUMBER = '6282319527214';
+const menuItems = [
+  // KOPI — 7 menu
+  {id:1,name:'Espresso',category:'kopi',price:24000,image:'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=700&q=85'},
+  {id:2,name:'Iced Velvet Latte',category:'kopi',price:32000,image:'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=700&q=85'},
+  {id:3,name:'Cappuccino',category:'kopi',price:30000,image:'https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=700&q=85'},
+  {id:4,name:'Cafe Americano',category:'kopi',price:26000,image:'https://images.unsplash.com/photo-1551030173-122aaba36761?auto=format&fit=crop&w=700&q=85'},
+  {id:5,name:'Caramel Macchiato',category:'kopi',price:35000,image:'https://images.unsplash.com/photo-1485808191679-5f86510681a2?auto=format&fit=crop&w=700&q=85'},
+  {id:6,name:'Cafe Mocha',category:'kopi',price:34000,image:'https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?auto=format&fit=crop&w=700&q=85'},
+  {id:7,name:'Cold Brew',category:'kopi',price:30000,image:'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=700&q=85'},
+  // NON-KOPI — 7 menu
+  {id:8,name:'Matcha Latte',category:'non-kopi',price:34000,image:'https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&w=700&q=85'},
+  {id:9,name:'Chocolate Cream',category:'non-kopi',price:32000,image:'https://images.unsplash.com/photo-1542990253-0b8be9b7e3e8?auto=format&fit=crop&w=700&q=85'},
+  {id:10,name:'Strawberry Milk',category:'non-kopi',price:30000,image:'https://images.unsplash.com/photo-1553787499-6f9133860278?auto=format&fit=crop&w=700&q=85'},
+  {id:11,name:'Red Velvet Latte',category:'non-kopi',price:33000,image:'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=700&q=85'},
+  {id:12,name:'Lemon Tea',category:'non-kopi',price:25000,image:'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=700&q=85'},
+  {id:13,name:'Mango Yakult',category:'non-kopi',price:30000,image:'https://images.unsplash.com/photo-1546173159-315724a31696?auto=format&fit=crop&w=700&q=85'},
+  {id:14,name:'Taro Milk',category:'non-kopi',price:30000,image:'https://images.unsplash.com/photo-1558857563-b371033873b8?auto=format&fit=crop&w=700&q=85'},
+  // MAKANAN — 7 menu
+  {id:15,name:'Avocado Toast & Egg',category:'makanan',price:45000,image:'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=700&q=85'},
+  {id:16,name:'Berry Pancakes',category:'makanan',price:42000,image:'https://images.unsplash.com/photo-1528207776546-3851706c1e44?auto=format&fit=crop&w=700&q=85'},
+  {id:17,name:'Chicken Steak',category:'makanan',price:52000,image:'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=700&q=85'},
+  {id:18,name:'Beef Burger',category:'makanan',price:48000,image:'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=700&q=85'},
+  {id:19,name:'Creamy Pasta',category:'makanan',price:46000,image:'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=700&q=85'},
+  {id:20,name:'Chicken Rice Bowl',category:'makanan',price:40000,image:'https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=700&q=85'},
+  {id:21,name:'French Fries',category:'makanan',price:28000,image:'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?auto=format&fit=crop&w=700&q=85'},
+  // PASTRY — 7 menu
+  {id:22,name:'Butter Croissant',category:'pastry',price:28000,image:'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=700&q=85'},
+  {id:23,name:'Pain au Chocolat',category:'pastry',price:30000,image:'https://images.unsplash.com/photo-1608198093002-ad4e0054845b?auto=format&fit=crop&w=700&q=85'},
+  {id:24,name:'Cinnamon Roll',category:'pastry',price:27000,image:'https://images.unsplash.com/photo-1509365465985-25d11c17e812?auto=format&fit=crop&w=700&q=85'},
+  {id:25,name:'Blueberry Muffin',category:'pastry',price:26000,image:'https://images.unsplash.com/photo-1607958996333-41aef7caefaa?auto=format&fit=crop&w=700&q=85'},
+  {id:26,name:'Cheese Danish',category:'pastry',price:29000,image:'https://images.unsplash.com/photo-1509365465985-25d11c17e812?auto=format&fit=crop&w=700&q=85'},
+  {id:27,name:'Banana Bread',category:'pastry',price:25000,image:'https://images.unsplash.com/photo-1583528238847-4a5f3c2b4f15?auto=format&fit=crop&w=700&q=85'},
+  {id:28,name:'Chocolate Brownies',category:'pastry',price:28000,image:'https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=700&q=85'}
+];
+const categories=[{id:'kopi',label:'Kopi'},{id:'non-kopi',label:'Non-Kopi'},{id:'makanan',label:'Makanan'},{id:'pastry',label:'Pastry'}];
+let activeCategory='kopi', cart=[];
+const rupiah=n=>'Rp '+n.toLocaleString('id-ID');
+
+function renderCategories(){
+  document.getElementById('categories').innerHTML=categories.map(c=>`
+    <button onclick="setCategory('${c.id}')" class="category-btn min-h-[42px] rounded-xl border border-stone-300 bg-white px-1.5 py-2 text-center text-[11px] font-bold leading-tight sm:text-xs ${activeCategory===c.id?'active':''}">${c.label}</button>
+  `).join('');
 }
-
-document.getElementById('grid-food').innerHTML = 
-  menuItem('Burger Beef',35000) +
-  menuItem('Chicken Wrap',30000) +
-  menuItem('Steak Rice Bowl',45000) +
-  menuItem('Fish & Chips',40000) +
-  menuItem('Pasta Carbonara',38000);
-
-document.getElementById('grid-drink').innerHTML = 
-  menuItem('Iced Coffee',22000) +
-  menuItem('Latte',25000) +
-  menuItem('Matcha Latte',28000) +
-  menuItem('Fresh Lemonade',20000) +
-  menuItem('Mineral Water',10000);
-
-document.getElementById('grid-dessert').innerHTML = 
-  menuItem('Cheesecake',30000) +
-  menuItem('Brownies',28000);
-
-document.getElementById('grid-vegan').innerHTML = 
-  menuItem('Vegan Bowl',32000) +
-  menuItem('Tofu Teriyaki',30000);
-
-document.getElementById('grid-alcohol').innerHTML = 
-  menuItem('Red Wine',80000) +
-  menuItem('Beer',45000);
-
-let cart = {}; let total = 0;
-
-function add(name, price){
-  if(!cart[name]) cart[name]={qty:0,price};
-  cart[name].qty++; 
-  total+=price; 
-  update(name);
+function renderMenu(){
+  const items=activeCategory==='semua'?menuItems:menuItems.filter(x=>x.category===activeCategory);
+  document.getElementById('menu-grid').innerHTML=items.map(item=>`
+    <article class="menu-card overflow-hidden rounded-2xl border border-stone-200/80 bg-white">
+      <div class="relative aspect-[16/10] overflow-hidden bg-stone-100 sm:aspect-[16/9]">
+        <img src="${item.image}" alt="${item.name}" loading="lazy" class="h-full w-full object-cover" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=700&q=80'">
+        <button onclick="addToCart(${item.id})" aria-label="Tambah ${item.name}" class="absolute bottom-3 right-3 grid h-10 w-10 place-items-center rounded-full bg-white text-stone-900 shadow-md transition hover:bg-[#20201e] hover:text-white"><i data-lucide="plus" class="h-5 w-5"></i></button>
+      </div>
+      <div class="flex items-center justify-between gap-3 p-4 sm:p-5">
+        <h3 class="min-h-0 text-sm font-extrabold leading-snug sm:text-base">${item.name}</h3>
+        <div class="flex shrink-0 flex-col items-end gap-2"><p class="text-sm font-bold text-[#b76e3d]">${rupiah(item.price)}</p><button onclick="addToCart(${item.id})" class="rounded-full bg-stone-100 px-4 py-2 text-[11px] font-bold text-stone-700 transition hover:bg-stone-900 hover:text-white">+ Tambah</button></div>
+      </div>
+    </article>`).join('');
+  lucide.createIcons();
 }
-
-function minus(name){
-  if(cart[name] && cart[name].qty>0){
-    cart[name].qty--; 
-    total-=cart[name].price; 
-    if(cart[name].qty===0) delete cart[name]; 
-    update(name);
-  }
+function setCategory(id){activeCategory=id;renderCategories();renderMenu();}
+function addToCart(id){
+  const product=menuItems.find(x=>x.id===id), found=cart.find(x=>x.id===id);
+  if(found)found.qty++;else cart.push({...product,qty:1});
+  updateCartUI();
 }
-
-function update(name){
-  const q=document.getElementById('q-'+name); 
-  if(q) q.textContent=cart[name]?.qty||0;
-  document.getElementById('total').textContent=`Total: Rp ${total.toLocaleString('id-ID')}`;
+function updateQty(id,delta){
+  const item=cart.find(x=>x.id===id);if(!item)return;
+  item.qty+=delta;if(item.qty<=0)cart=cart.filter(x=>x.id!==id);
+  updateCartUI();
 }
-
-function orderWA(){
-  if(total === 0) {
-    alert("Keranjang masih kosong!");
-    return;
-  }
-  let msg='Halo, saya ingin order:%0A';
-  for(const i in cart){
-    msg+=`- ${i} (${cart[i].qty}x)%0A`
-  }
-  msg+=`%0ATotal: Rp ${total.toLocaleString('id-ID')}`;
-  window.open('https://wa.me/6282319527214?text='+msg);
+function updateCartUI(){
+  const qty=cart.reduce((s,x)=>s+x.qty,0),total=cart.reduce((s,x)=>s+x.qty*x.price,0);
+  const badge=document.getElementById('cart-badge');badge.textContent=qty;badge.classList.toggle('hidden',qty===0);
+  document.getElementById('cart-total').textContent=rupiah(total);
+  document.getElementById('mobile-total').textContent=rupiah(total);
+  const area=document.getElementById('cart-items');
+  if(!cart.length){area.innerHTML=`<div class="flex h-full flex-col items-center justify-center text-center text-stone-400"><i data-lucide="shopping-basket" class="mb-3 h-10 w-10"></i><p class="text-sm font-bold">Keranjang masih kosong</p><p class="mt-1 text-xs">Yuk, pilih menu favoritmu.</p></div>`;}
+  else{area.innerHTML=cart.map(x=>`
+    <div class="flex items-center gap-3 rounded-xl border border-stone-100 p-3">
+      <img src="${x.image}" alt="" class="h-16 w-16 rounded-lg object-cover">
+      <div class="min-w-0 flex-1"><p class="truncate text-xs font-extrabold">${x.name}</p><p class="mt-1 text-xs font-semibold text-[#b76e3d]">${rupiah(x.price)}</p>
+      <div class="mt-2 flex items-center gap-3"><button onclick="updateQty(${x.id},-1)" class="grid h-6 w-6 place-items-center rounded-full bg-stone-100 font-bold">−</button><span class="text-xs font-bold">${x.qty}</span><button onclick="updateQty(${x.id},1)" class="grid h-6 w-6 place-items-center rounded-full bg-stone-100 font-bold">+</button></div></div>
+      <div class="text-right"><p class="text-xs font-extrabold">${rupiah(x.price*x.qty)}</p><button onclick="updateQty(${x.id},-${x.qty})" class="mt-2 text-[10px] font-semibold text-stone-400 underline">Hapus</button></div>
+    </div>`).join('');}
+  lucide.createIcons();
 }
+function toggleCart(open){
+  const drawer=document.getElementById('cart-drawer'),back=document.getElementById('cart-backdrop'),content=document.getElementById('cart-content');
+  if(open){drawer.classList.remove('hidden');requestAnimationFrame(()=>{back.classList.add('backdrop-show');content.classList.add('drawer-open');});}
+  else{back.classList.remove('backdrop-show');content.classList.remove('drawer-open');setTimeout(()=>drawer.classList.add('hidden'),300);}
+}
+function checkout(){
+  if(!cart.length){alert('Keranjang masih kosong. Silakan pilih menu terlebih dahulu.');return;}
+  const total=cart.reduce((s,x)=>s+x.qty*x.price,0);
+  const lines=cart.map(x=>`- ${x.name} x${x.qty} = ${rupiah(x.price*x.qty)}`).join('\n');
+  const message=`Halo Urban Cafe, saya ingin memesan:\n\n${lines}\n\nTotal: ${rupiah(total)}\n\nNama:\nMetode pengambilan:`;
+  window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(message)}`,'_blank','noopener');
+}
+renderCategories();renderMenu();updateCartUI();lucide.createIcons();
 </script>
 </body>
 </html>
