@@ -23,7 +23,8 @@
     .menu-card img { transition:transform .45s ease; }
     .menu-card:hover img { transform:scale(1.045); }
     .category-btn { transition:all .18s ease; }
-    .category-btn.active { background:#359FA0; color:var(--ink); border-color:#287F80; box-shadow:inset 0 0 0 1px #287F80; }
+    .category-btn { background:#FFF8B0; border-color:#E8E085; color:var(--ink); }
+    .category-btn.active { background:#E8E085; color:var(--ink); border-color:#C9BE59; box-shadow:inset 0 0 0 1px #C9BE59; }
     .drawer-open { transform:translateX(0)!important; }
     .backdrop-show { opacity:1!important; pointer-events:auto!important; }
     .safe-bottom { padding-bottom:max(14px, env(safe-area-inset-bottom)); }
@@ -61,7 +62,7 @@
       <div id="menu-grid" class="mx-auto grid max-w-3xl grid-cols-1 gap-5"></div>
     </section>
 
-    <section id="info" class="border-t border-[#D8C8B9] bg-white">
+    <section id="info" class="border-t border-[#D8C8B9] bg-[#FFF8B0]">
       <div class="mx-auto flex max-w-7xl flex-col items-center gap-5 px-4 py-8 text-center sm:px-6 lg:px-8">
         <div class="w-full text-center"><p class="text-sm font-extrabold">URBAN CAFE.</p><p class="mt-1 text-xs text-stone-500">Good coffee. Good food. Good days.</p></div>
         <a href="https://wa.me/6282319527214" target="_blank" rel="noopener" class="inline-flex w-full max-w-md items-center justify-center gap-2 rounded-full border border-[#359FA0] bg-[#359FA0] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#287F80]"><i data-lucide="message-circle" class="h-4 w-4"></i> Order Now · WhatsApp</a>
@@ -69,7 +70,7 @@
     </section>
   </main>
 
-  <div class="fixed inset-x-0 bottom-0 z-30 border-t border-[#D8C8B9] bg-white/95 p-3 backdrop-blur md:hidden safe-bottom">
+  <div class="fixed inset-x-0 bottom-0 z-30 border-t border-[#D8C8B9] bg-[#FFF8B0]/95 p-3 backdrop-blur md:hidden safe-bottom">
     <div class="mx-auto flex max-w-lg items-center gap-3">
       <button onclick="toggleCart(true)" class="flex flex-1 items-center justify-between rounded-full border border-[#359FA0] bg-[#359FA0] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#287F80]"><span class="flex items-center gap-2"><i data-lucide="shopping-bag" class="h-4 w-4"></i> Keranjang</span><span id="mobile-total" class="text-[#246F70]">Rp 0</span></button>
       <a href="https://wa.me/6282319527214" target="_blank" rel="noopener" class="rounded-full border border-[#359FA0] bg-[#359FA0] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#287F80]">Order Now</a>
@@ -134,7 +135,7 @@ const rupiah=n=>'Rp '+n.toLocaleString('id-ID');
 
 function renderCategories(){
   document.getElementById('categories').innerHTML=categories.map(c=>`
-    <button onclick="setCategory('${c.id}')" class="category-btn min-h-[42px] rounded-xl border border-[#359FA0] bg-[#359FA0] px-1.5 py-2 text-center text-[11px] font-extrabold uppercase tracking-wide leading-tight sm:text-xs ${activeCategory===c.id?'active':''}">${c.label}</button>
+    <button onclick="setCategory('${c.id}')" class="category-btn min-h-[42px] rounded-xl border border-[#E8E085] bg-[#FFF8B0] px-1.5 py-2 text-center text-[11px] font-extrabold uppercase tracking-wide leading-tight sm:text-xs ${activeCategory===c.id?'active':''}">${c.label}</button>
   `).join('');
 }
 function renderMenu(){
