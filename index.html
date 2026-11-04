@@ -134,7 +134,7 @@ const rupiah=n=>'Rp '+n.toLocaleString('id-ID');
 
 function renderCategories(){
   document.getElementById('categories').innerHTML=categories.map(c=>`
-    <button onclick="setCategory('${c.id}')" class="category-btn min-h-[42px] rounded-xl border border-[#359FA0] bg-[#359FA0] px-1.5 py-2 text-center text-[11px] font-bold leading-tight sm:text-xs ${activeCategory===c.id?'active':''}">${c.label}</button>
+    <button onclick="setCategory('${c.id}')" class="category-btn min-h-[42px] rounded-xl border border-[#359FA0] bg-[#359FA0] px-1.5 py-2 text-center text-[11px] font-extrabold uppercase tracking-wide leading-tight sm:text-xs ${activeCategory===c.id?'active':''}">${c.label}</button>
   `).join('');
 }
 function renderMenu(){
